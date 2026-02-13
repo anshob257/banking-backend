@@ -97,9 +97,8 @@ This project simulates how real-world banking systems maintain:
 * Duplicate prevention
 
 
-
 👨‍💻 Author
 
-**Ansh Oberai**
-GitHub: [https://github.com/anshob257](https://github.com/anshob257)
-LinkedIn: [https://www.linkedin.com/in/ansh-oberoi295](https://www.linkedin.com/in/ansh-oberoi295)
+Ansh Oberai
+GitHub: https://github.com/anshob257
+LinkedIn: https://www.linkedin.com/in/ansh-oberoi295
