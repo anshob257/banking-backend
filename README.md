@@ -1,9 +1,11 @@
-💳 Ledger-Based Banking System Backend
+
+# 💳 Ledger-Based Banking System Backend
 
 Production-style banking backend built with **Node.js, Express, and MongoDB** implementing secure authentication, ledger-driven transactions, idempotency protection, and atomic balance computation.
 
+---
 
-🚀 Features
+## 🚀 Features
 
 * 🔐 JWT Authentication with bcrypt password hashing
 * 🏦 Account creation & management APIs
@@ -15,7 +17,15 @@ Production-style banking backend built with **Node.js, Express, and MongoDB** im
 * 🚫 Token blacklisting for secure logout
 * 🛡 Auth middleware & cookie-based session handling
 
- Transaction Flow:
+---
+
+## 🏗 System Architecture
+
+Client → REST API → Controllers → Services → MongoDB
+                                        ↓
+                                Ledger Collection
+
+### Transaction Flow:
 
 1. Validate JWT & account status
 2. Check idempotency key
@@ -24,7 +34,7 @@ Production-style banking backend built with **Node.js, Express, and MongoDB** im
 5. Derive balance via aggregation
 6. Send notification
 
-
+---
 
 ## 🛠 Tech Stack
 
@@ -34,9 +44,24 @@ Production-style banking backend built with **Node.js, Express, and MongoDB** im
 * **Email Service:** Nodemailer
 * **Security:** Middleware, Cookie Parser, Token Blacklisting
 
+---
 
+## 📂 Project Structure
 
-Environment Variables
+```
+├── controllers/
+├── models/
+├── routes/
+├── middleware/
+├── config/
+├── utils/
+├── app.js
+└── server.js
+```
+
+---
+
+## ⚙️ Environment Variables
 
 Create a `.env` file:
 
@@ -48,37 +73,40 @@ EMAIL_USER=your_email
 EMAIL_PASS=your_password
 ```
 
+---
 
-▶️ Installation & Setup
+## ▶️ Installation & Setup
 
-bash
+```bash
 git clone https://github.com/yourusername/banking-backend.git
 cd banking-backend
 npm install
 npm run dev
 ```
 
+---
 
-📡 API Endpoints
+## 📡 API Endpoints
 
-Auth
+### Auth
 
 * POST `/api/auth/register`
 * POST `/api/auth/login`
 * POST `/api/auth/logout`
 
-Account
+### Account
 
 * POST `/api/account/create`
 * GET `/api/account/balance`
 
-Transactions
+### Transactions
 
 * POST `/api/transaction/create`
 * GET `/api/transaction/history`
 
+---
 
-🧠 Key Concepts Implemented
+## 🧠 Key Concepts Implemented
 
 * Ledger-based financial architecture
 * Idempotent transaction handling
@@ -86,8 +114,9 @@ Transactions
 * Secure REST API design
 * Production-ready backend structuring
 
+---
 
-🔥 Why This Project Matters
+## 🔥 Why This Project Matters
 
 This project simulates how real-world banking systems maintain:
 
@@ -96,9 +125,22 @@ This project simulates how real-world banking systems maintain:
 * Security & authentication
 * Duplicate prevention
 
+---
 
-👨‍💻 Author
+## 📌 Future Improvements
 
-Ansh Oberai
-GitHub: https://github.com/anshob257
-LinkedIn: https://www.linkedin.com/in/ansh-oberoi295
+* MongoDB Transactions (Session-based ACID)
+* Rate limiting & fraud detection
+* Role-based access control
+* Docker deployment
+* CI/CD integration
+
+---
+
+## 👨‍💻 Author
+
+**Ansh Oberai**
+GitHub: [https://github.com/anshob257](https://github.com/anshob257)
+LinkedIn: [https://www.linkedin.com/in/ansh-oberoi295](https://www.linkedin.com/in/ansh-oberoi295)
+
+
