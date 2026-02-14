@@ -157,13 +157,7 @@ async function createTransaction(req, res) {
     /**
      * 10. Send email notification
      */
-    // send email but don't block API response
-emailService
-  .sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
-  .catch((err) => {
-    console.log("Email error:", err.message);
-  });
-
+    await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
 
     return res.status(201).json({
         message: "Transaction completed successfully",
