@@ -27,12 +27,13 @@ async function userRegisterController(req, res) {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "3d" })
 
-    res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,        // IMPORTANT for localhost
-    sameSite: "lax",      // Important for cross-origin
-    maxAge: 3 * 24 * 60 * 60 * 1000
-})
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,        // REQUIRED for HTTPS
+  sameSite: "none",    // REQUIRED for cross-origin
+  maxAge: 3 * 24 * 60 * 60 * 1000
+});
+
 
 
     res.status(201).json({
@@ -83,10 +84,12 @@ async function userLoginController(req, res) {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "3d" })
 
     res.cookie("token", token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax"
-    })
+  httpOnly: true,
+  secure: true,        // REQUIRED for HTTPS
+  sameSite: "none",    // REQUIRED for cross-origin
+  maxAge: 3 * 24 * 60 * 60 * 1000
+});
+
 
    res.status(200).json({
     user: {
@@ -121,10 +124,11 @@ async function userLogoutController(req, res) {
     })
 
     res.clearCookie("token", {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax"
-})
+  httpOnly: true,
+  secure: true,
+  sameSite: "none"
+});
+
 
 
     res.status(200).json({
