@@ -22,7 +22,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors()); // 🔥 important for preflight
+// 🔥 important for preflight
 
 app.use(express.json());
 app.use(cookieParser());
