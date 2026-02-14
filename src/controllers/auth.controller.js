@@ -27,7 +27,13 @@ async function userRegisterController(req, res) {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "3d" })
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,        // IMPORTANT for localhost
+    sameSite: "lax",      // Important for cross-origin
+    maxAge: 3 * 24 * 60 * 60 * 1000
+})
+
 
     res.status(201).json({
         user: {
@@ -49,7 +55,14 @@ async function userRegisterController(req, res) {
 async function userLoginController(req, res) {
     const { email, password } = req.body
 
-    const user = await userModel.findOne({ email }).select("+password")
+    console.log("LOGIN BODY:", req.body)
+
+    const user = await userModel
+  .findOne({ email })
+  .select("+password +systemUser")
+
+
+    console.log("USER FOUND:", user)
 
     if (!user) {
         return res.status(401).json({
@@ -59,6 +72,8 @@ async function userLoginController(req, res) {
 
     const isValidPassword = await user.comparePassword(password)
 
+    console.log("PASSWORD VALID:", isValidPassword)
+
     if (!isValidPassword) {
         return res.status(401).json({
             message: "Email or password is INVALID"
@@ -67,18 +82,23 @@ async function userLoginController(req, res) {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "3d" })
 
-    res.cookie("token", token)
-
-    res.status(200).json({
-        user: {
-            _id: user._id,
-            email: user.email,
-            name: user.name
-        },
-        token
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
     })
 
+   res.status(200).json({
+    user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        systemUser: user.systemUser   // 👈 add this
+    }
+})
+
 }
+
 
 
 /**
@@ -100,7 +120,12 @@ async function userLogoutController(req, res) {
         token: token
     })
 
-    res.clearCookie("token")
+    res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax"
+})
+
 
     res.status(200).json({
         message: "User logged out successfully"
@@ -109,8 +134,29 @@ async function userLogoutController(req, res) {
 }
 
 
-module.exports = {
-    userRegisterController,
-    userLoginController,
-    userLogoutController
+/**
+ * - GET /api/auth/me
+ * - Return currently logged-in user (based on cookie)
+ */
+async function userMeController(req, res) {
+  // authMiddleware already set req.user
+  if (!req.user) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  return res.status(200).json({
+    user: {
+      _id: req.user._id,
+      email: req.user.email,
+      name: req.user.name,
+      systemUser: req.user.systemUser || false
+    }
+  });
 }
+
+module.exports = {
+  userRegisterController,
+  userLoginController,
+  userLogoutController,
+  userMeController // <-- add here
+};

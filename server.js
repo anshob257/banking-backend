@@ -1,9 +1,9 @@
-require("dotenv").config()
-const app=require("./src/app")
-const dbconnect=require("./src/config/db")
+    require("dotenv").config()
+    const app=require("./src/app")
+    const dbconnect=require("./src/config/db")
 
-dbconnect()
+    dbconnect()
 
-app.listen(3000,()=>{
-    console.log("sevrer running ")
-})
+    app.listen(3000,()=>{
+        console.log("sevrer running ")
+    })
